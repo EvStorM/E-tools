@@ -1,0 +1,426 @@
+@mixin r-flex {
+  display: flex;
+}
+// 定义flex布局的flex-content属性
+@each $i, $just in s flex-start, e flex-end, c center, sb space-between, sa space-around {
+  // 定义flex布局的justify-content属性
+  @each $dir, $long in r row, rr row-reverse, c column, cr column-reverse {
+    // 定义flex布局的align-items属性
+    @each $ali, $along in s flex-start, e flex-end, st stretch, c center, b baseline {
+      .ev-f#{$dir}-#{$i}-#{$ali} {
+        @include r-flex;
+        flex-direction: $long;
+        justify-content: $just;
+        align-items: $along;
+      }
+    }
+  }
+}
+// 定义flex布局的 align-self属性
+@each $dir, $long in s flex-start, e flex-end, c center, b baseline, st stretch {
+  .ev-falign-self-#{$dir} {
+    align-self: $long;
+  }
+}
+// 定义flex布局剩余空间占据
+@for $i from 0 to 5 {
+  .ev-flex-#{$i} {
+    flex-grow: $i;
+  }
+}
+// 定义flex布局剩余空间缩小
+@for $i from 0 to 1 {
+  .ev-flexshrink-#{$i} {
+    flex-shrink: $i;
+  }
+}
+// 定义overflow
+@each $dir, $long in h hidden, s scroll, a auto, i inherit {
+  .ev-overflow-#{$dir} {
+    overflow: $long;
+  }
+}
+// 定义flex布局是否换行
+.ev-f-wrap {
+  flex-wrap: wrap;
+}
+.ev-f-nowrap {
+  flex-wrap: nowrap;
+}
+.ev-f-wrapr {
+  flex-wrap: wrap-reverse;
+}
+
+// 定义网格快速布局
+@for $i from 1 to 10 {
+  .ev-grid-#{$i} {
+    display: grid;
+    grid-template-columns: repeat($i, ((1 / $i) * 100%));
+  }
+}
+// 定义网格快速布局
+@for $i from 1 to 6 {
+  @for $j from 1 to 6 {
+    .ev-grid-#{$i}-#{$j} {
+      display: grid;
+      grid-template-columns: repeat($i, ((1 / $i) * 100%));
+      grid-template-rows: repeat($j, ((1 / $j) * 100%));
+    }
+  }
+}
+// 定义网格快速间距布局
+@for $i from 1 to 32 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    .ev-grid-g-#{$i} {
+      grid-gap: $i + rpx $i + rpx;
+    }
+  }
+}
+// 定义字体位置
+.ev-text-l {
+  text-align: left;
+}
+.ev-text-c {
+  text-align: center;
+}
+.ev-text-r {
+  text-align: right;
+}
+
+// 定义宽度单位
+@for $i from 0 to 200 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    .ev-w-#{$i} {
+      width: $i + rpx !important;
+    }
+  }
+}
+// 定义高度单位
+@for $i from 0 to 200 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    .ev-h-#{$i} {
+      height: $i + rpx !important;
+    }
+  }
+}
+.ev-w-100vw {
+  width: 100vw;
+}
+.ev-h-100vh {
+  height: 100vh;
+}
+// 定义宽高百分比
+@for $i from 1 to 21 {
+  .ev-w-b#{$i * 5} {
+    width: $i * 5%;
+  }
+  .ev-h-b#{$i * 5} {
+    height: $i * 5%;
+  }
+}
+
+// 定义透明度单位
+@for $i from 0 to 100 {
+  @if $i % 5 == 0 {
+    .ev-opacity-#{$i} {
+      opacity: $i/100;
+    }
+  }
+}
+// 定义圆角
+@for $i from 0 to 64 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    .ev-round-#{$i} {
+      border-radius: $i + rpx !important;
+    }
+  }
+}
+.ev-round {
+  border-radius: 50%;
+}
+// 定义字体(rpx)单位，
+@for $i from 16 to 40 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    .ev-font-#{$i} {
+      font-size: $i + rpx;
+    }
+  }
+}
+// 定义字体加粗单位
+@for $i from 0 to 10 {
+  .ev-fbold-#{$i} {
+    font-weight: $i * 100 !important;
+  }
+}
+.ev-fbold {
+  font-weight: bold;
+}
+// 定义描边
+@for $i from 0 to 6 {
+  @each $short, $long in l left, t top, r right, b bottom {
+    .ev-border-#{$short}-#{$i} {
+      border-#{$long}: $i + rpx solid #e4e7ed !important;
+    }
+  }
+}
+@mixin ev-line {
+  overflow: hidden; //超出的文本隐藏
+  text-overflow: ellipsis; //溢出用省略号显示
+  display: -webkit-box; //作为弹性伸缩盒子模型显示。
+  -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+}
+
+@for $i from 1 to 10 {
+  .ev-line-#{$i} {
+    @include ev-line;
+    -webkit-line-clamp: $i; //显示的行
+  }
+}
+
+// 定义内外边距，历遍1-64
+@for $i from 0 through 64 {
+  // 只要双数和能被5除尽的数
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    // 得出：ev-m-30
+    .ev-m-#{$i} {
+      margin: $i + rpx !important;
+    }
+    // 得出：ev-p-30
+    .ev-p-#{$i} {
+      padding: $i + rpx !important;
+    }
+    @each $short, $long in l left, t top, r right, b bottom {
+      // 缩写版，结果如： ev-m-l-30
+      // 定义外边距
+      .ev-m-#{$short}-#{$i} {
+        margin-#{$long}: $i + rpx !important;
+      }
+      // 定义内边距
+      .ev-p-#{$short}-#{$i} {
+        padding-#{$long}: $i + rpx !important;
+      }
+    }
+    // @each $short, $long, $long2 in lr left right, tb top bottom, tl top left, tr top right, bl left bottom, br right bottom {
+    //   // 缩写版，结果如： r-m-lr-30
+    //   // 定义外边距
+    //   .ev-m-#{$short}-#{$i} {
+    //     margin-#{$long}: $i + rpx !important;
+    //     margin-#{$long2}: $i + rpx !important;
+    //   }
+    //   // 定义内边距
+    //   .ev-p-#{$short}-#{$i} {
+    //     padding-#{$long}: $i + rpx !important;
+    //     padding-#{$long2}: $i + rpx !important;
+    //   }
+    // }
+  }
+}
+.ev-posa {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+.ev-posr {
+  position: relative !important;
+}
+.ev-fixed {
+  position: fixed !important;
+}
+@for $i from 0 to 10 {
+  .ev-zindex-#{$i} {
+    z-index: $i;
+  }
+}
+// 定义display 属性
+@each $dir, $long in b block, i inline, ib inline-block, n none {
+  .ev-dis-#{$dir} {
+    display: $long;
+  }
+}
+.ev-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+// 加载中蒙版层
+.ev-loading {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include r-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(192, 196, 204, 0.4);
+}
+// for循环中的顶部横线
+.ev-forb {
+  border-top: 1rpx solid #ebebeb;
+  &:last-child {
+    border-bottom: 0rpx;
+  }
+  &:first-child {
+    border-bottom: 0rpx;
+  }
+}
+// 去除button的默认样式
+.ev-reset-button {
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  background-color: transparent;
+  color: inherit;
+  &::after {
+    border: none;
+  }
+}
+// 主要内容的安全框
+.ev-mainBody {
+  margin: 20rpx 32rpx 0;
+}
+// 主要内容的安全框
+.ev-p-mainBody {
+  padding: 20rpx 32rpx 0;
+}
+.safe-area-inset-bottom {
+  padding-bottom: 32rpx;
+  padding-bottom: constant(safe-area-inset-bottom); // 兼容 IOS<11.2
+  padding-bottom: env(safe-area-inset-bottom); // 兼容 IOS>=11.2
+}
+.ev-lh-0 {
+  line-height: 0;
+}
+.ev-m-l-auto {
+  margin-left: auto;
+}
+.ev-m-r-auto {
+  margin-right: auto;
+}
+
+// #0-#F 颜色生成
+@for $i from 0 to 10 {
+  .ev-color-#{$i} {
+    color: #{"#"} + $i + $i + $i !important;
+  }
+  .ev-bg-#{$i} {
+    background-color: #{"#"} + $i + $i + $i !important;
+  }
+}
+@each $i in a, b, c, d, e, f {
+  .ev-color-#{$i} {
+    color: #{"#"} + $i + $i + $i !important;
+  }
+  .ev-bg-#{$i} {
+    background-color: #{"#"} + $i + $i + $i !important;
+  }
+}
+// 主题色
+$primary: #62a722;
+$primary2: #aa5900;
+// 普通信息色
+$info: #909399;
+// 警告颜色
+$warning: #ff9900;
+// 错误颜色
+$error: #ff717a;
+// 成功颜色
+$success: #19be6b;
+
+// 标题颜色
+$title: #303133;
+// 内容颜色
+$content: #606266;
+// 提示内容颜色
+$tips: #909399;
+// 描边颜色
+$bordercolor: #e4e7ed;
+// 背景颜色
+$bgcolor: #f3f4f6;
+
+$e-color: (
+  "primary2": $primary2,
+  "primary": $primary,
+  "info": $info,
+  "warning": $warning,
+  "error": $error,
+  "success": $success,
+);
+
+// 变亮
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+// 变暗
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+// 遍历颜色,然后赋值
+@each $name, $value in $e-color {
+  .ev-bg-#{$name} {
+    background-color: $value !important;
+  }
+  .ev-color-#{$name} {
+    color: $value !important;
+  }
+  .ev-borderc-#{$name} {
+    border-color: $value !important;
+  }
+  @for $i from 1 to 10 {
+    $tcolor: map-get($e-color, $name);
+    @if $i < 5 {
+      $tlcolor: tint($tcolor, (6 - $i) * 15%);
+      .ev-color-#{$name}-#{$i * 10} {
+        color: $tlcolor !important;
+      }
+      .ev-bg-#{$name}-#{$i * 10} {
+        background-color: $tlcolor !important;
+      }
+    }
+    @if $i > 5 {
+      $dlcolor: shade($tcolor, ($i - 5) * 15%);
+      .ev-color-#{$name}-#{$i * 10} {
+        color: $dlcolor !important;
+      }
+      .ev-bg-#{$name}-#{$i * 10} {
+        background-color: $dlcolor !important;
+      }
+    }
+  }
+}
+
+:export {
+  name: "scss";
+  primary: $primary;
+  primary2: $primary2;
+  primarydark: darken($primary, 10%);
+  primarydisabled: lighten($primary, 20%);
+  primarylight: lighten($primary, 10%);
+
+  info: $info;
+  infodark: darken($info, 10%);
+  infodisabled: lighten($info, 20%);
+  infolight: lighten($info, 10%);
+
+  warning: $warning;
+  warningdark: darken($warning, 10%);
+  warningdisabled: lighten($warning, 20%);
+  warninglight: lighten($warning, 10%);
+
+  error: $error;
+  errordark: darken($error, 10%);
+  errordisabled: lighten($error, 20%);
+  errorlight: lighten($error, 10%);
+
+  success: $success;
+  successdark: darken($success, 10%);
+  successdisabled: lighten($success, 20%);
+  successlight: lighten($success, 10%);
+
+  title: $title;
+  content: $content;
+  tips: $tips;
+  bordercolor: $bordercolor;
+  bgcolor: $bgcolor;
+}
